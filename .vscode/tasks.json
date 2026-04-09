@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build SC2 Extension",
+      "type": "shell",
+      "command": "yarn compile",
+      "options": {
+        "cwd": "${workspaceFolder}/vsc-sc2-plugin"
+      },
+      "group": "build",
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "Watch SC2 Extension",
+      "type": "shell",
+      "command": "yarn watch",
+      "options": {
+        "cwd": "${workspaceFolder}/vsc-sc2-plugin"
+      },
+      "isBackground": true,
+      "group": "build",
+      "problemMatcher": ["$tsc-watch"]
+    }
+  ]
+}

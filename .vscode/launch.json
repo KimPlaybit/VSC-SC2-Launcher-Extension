@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SC2: Launch Map",
+      "type": "sc2",
+      "request": "launch"
+    },
+    {
+      "name": "Run SC2 Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/vsc-sc2-plugin"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/vsc-sc2-plugin/out/**/*.js"
+      ],
+      "preLaunchTask": "Build SC2 Extension"
+    }
+  ]
+}
