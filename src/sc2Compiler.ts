@@ -17,6 +17,7 @@ export interface LaunchOptions {
     meleeMod?: string;
     difficulty?: number;
     speed?: number;
+    testConfig?: string;
 }
 
 export class SC2Launcher {
@@ -114,6 +115,19 @@ export class SC2Launcher {
 
         if (opts.triggerDebug) {
             args.push('-TrigDebug');
+        }
+
+        if (opts.testConfig) {
+            const rawTestConfig = opts.testConfig.trim();
+            // Resolve relative paths against the first workspace folder so users
+            // can keep multiple .SC2TestConfig files inside their project.
+            const testConfigPath = path.isAbsolute(rawTestConfig)
+                ? rawTestConfig
+                : path.resolve(
+                      vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? '',
+                      rawTestConfig,
+                  );
+            args.push('-testconfig', testConfigPath);
         }
 
         const stdio = opts.showErrors ? 'pipe' : 'ignore';

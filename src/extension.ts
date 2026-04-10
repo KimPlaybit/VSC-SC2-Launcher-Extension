@@ -39,6 +39,7 @@ export function activate(context: vscode.ExtensionContext): void {
                     meleeMod:     cfg.meleeMod,
                     difficulty:   cfg.difficulty,
                     speed:        cfg.speed,
+                    testConfig:   cfg.testConfig,
                 };
                 launcher.launch(opts);
                 return undefined; // returning undefined cancels the debug session (no debugger attaches)
@@ -64,5 +65,6 @@ function getLaunchOptsFromConfig(): LaunchOptions {
         meleeMod:     sc2Config.meleeMod,
         difficulty:   sc2Config.difficulty,
         speed:        sc2Config.speed,
+        testConfig:   sc2Config.testConfig,
     };
 }

@@ -78,6 +78,11 @@
                 "minimum": 0,
                 "maximum": 4,
                 "description": "Game speed: 0=Slower, 1=Slow, 2=Normal, 3=Fast, 4=Faster (-speed)."
+              },
+              "testConfig": {
+                "type": "string",
+                "default": "",
+                "description": "Path to a .SC2TestConfig file used to set default attribute values when launching without the editor (-testconfig). Accepts an absolute path or a path relative to the workspace root, allowing different configs per launch configuration."
               }
             }
           }
