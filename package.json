@@ -96,6 +96,11 @@
           "type": "string",
           "default": "",
           "description": "Absolute path to the .SC2Map folder. Leave empty to auto-detect from the workspace (first folder ending in .SC2Map)."
+        },
+        "sc2.warnIfRunning": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a warning dialog when SC2 is already running, asking whether to kill and relaunch it. Disable this to suppress the dialog and always kill & relaunch automatically."
         }
       }
     }

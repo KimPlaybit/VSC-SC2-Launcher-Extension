@@ -31,13 +31,16 @@ export class SC2Launcher {
 
         const already = await this.isProcessRunning('SC2_x64.exe');
         if (already) {
-            const choice = await vscode.window.showWarningMessage(
-                'SC2 is already running. Kill it and relaunch?',
-                { modal: true },
-                'Kill & Relaunch',
-            );
-            if (choice !== 'Kill & Relaunch') {
-                return;
+            const warnIfRunning = vscode.workspace.getConfiguration('sc2').get<boolean>('warnIfRunning', true);
+            if (warnIfRunning) {
+                const choice = await vscode.window.showWarningMessage(
+                    'SC2 is already running. Kill it and relaunch?',
+                    { modal: true },
+                    'Kill & Relaunch',
+                );
+                if (choice !== 'Kill & Relaunch') {
+                    return;
+                }
             }
             await this.killSC2();
         }
