@@ -12,11 +12,11 @@ A `$(run) SC2: Launch Map` button sits in the status bar at all times. One click
 ### Run & Debug integration
 The extension registers itself as a debug configuration provider. Open the **Run and Debug** panel and `SC2: Launch Map` appears in the dropdown — no `launch.json` needed.
 
-![Run & Debug dropdown showing SC2 Launcher](readme-pic/auto-generated-launch.png)
+![Run & Debug dropdown showing SC2 Launcher](https://raw.githubusercontent.com/KimPlaybit/VSC-SC2-Launcher-Extension/master/readme-pic/auto-generated-launch.png)
 
 Press **F5** or click the green play button to launch.
 
-![SC2: Launch Map selected in the Run & Debug panel](readme-pic/debug-run.png)
+![SC2: Launch Map selected in the Run & Debug panel](https://raw.githubusercontent.com/KimPlaybit/VSC-SC2-Launcher-Extension/master/readme-pic/debug-run.png)
 
 ### Advanced launch options via `launch.json`
 For full control, add an SC2 configuration to your `.vscode/launch.json`:
@@ -32,7 +32,7 @@ For full control, add an SC2 configuration to your `.vscode/launch.json`:
 }
 ```
 
-![launch.json with SC2 config options](readme-pic/launch-settings.png)
+![launch.json with SC2 config options](https://raw.githubusercontent.com/KimPlaybit/VSC-SC2-Launcher-Extension/master/readme-pic/launch-settings.png)
 
 | Option | Type | Description |
 |---|---|---|
@@ -57,7 +57,7 @@ The extension scans your workspace for the first folder ending in `.SC2Map` and 
 1. Open **Settings** (`Ctrl+,`) and search for **SC2**.
 2. Set **SC2: Install Dir** to your StarCraft II root folder.
 
-![Settings page showing SC2: Install Dir and SC2: Map Path fields](readme-pic/setup.png)
+![Settings page showing SC2: Install Dir and SC2: Map Path fields](https://raw.githubusercontent.com/KimPlaybit/VSC-SC2-Launcher-Extension/master/readme-pic/setup.png)
 
 | Setting | Description |
 |---|---|

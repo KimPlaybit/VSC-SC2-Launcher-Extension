@@ -1,6 +1,13 @@
-out/
 node_modules/
 .vscode-test/
+.vscode/
+.agents/
+.git/
+.gitignore
 src/
 tsconfig.json
 *.vsix
+*.ps1
+yarn.lock
+info/
+embed-images.ps1

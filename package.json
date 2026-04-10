@@ -4,6 +4,11 @@
   "description": "Launch StarCraft II maps directly from VS Code",
   "version": "0.5.0",
   "publisher": "Playbitstudios",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KimPlaybit/VSC-SC2-Launcher-Extension"
+  },
   "icon": "readme-pic/sc2editoricon.png",
   "engines": {
     "vscode": "^1.80.0"
@@ -97,6 +102,7 @@
   },
   "packageManager": "yarn@1.22.17",
   "scripts": {
+    "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
