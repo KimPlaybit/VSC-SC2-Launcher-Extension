@@ -10,13 +10,16 @@ interface SC2Config {
 }
 
 export interface LaunchOptions {
+    map?: string;
     triggerDebug?: boolean;
     showErrors?: boolean;
     preload?: boolean;
     noUserCheats?: boolean;
+    reloadCheck?: boolean;
     meleeMod?: string;
     difficulty?: number;
     speed?: number;
+    testMod?: string;
     testConfig?: string;
 }
 
@@ -100,7 +103,7 @@ export class SC2Launcher {
     }
 
     private spawnSC2(cfg: SC2Config, opts: LaunchOptions): void {
-        const args = ['-run', cfg.mapPath];
+        const args = ['-run', opts.map ?? cfg.mapPath];
 
         if (opts.preload ?? true) {
             args.push('-preload', '1');
@@ -115,6 +118,13 @@ export class SC2Launcher {
 
         if (opts.triggerDebug) {
             args.push('-TrigDebug');
+        }
+        if (opts.reloadCheck) {
+            args.push('-reloadcheck');
+        }
+        const testMod = opts.testMod?.trim();
+        if (testMod) {
+            args.push('-testmod', testMod);
         }
 
         if (opts.testConfig) {

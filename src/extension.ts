@@ -26,29 +26,34 @@ export function activate(context: vscode.ExtensionContext): void {
         }),
     );
 
-    // ── Debug provider — hooks "SC2: Launch Map" in the Run & Debug dropdown ──
+    // ── Debug provider — hooks the Run & Debug dropdown ──────────────────────
     context.subscriptions.push(
         vscode.debug.registerDebugConfigurationProvider('sc2', {
             resolveDebugConfiguration(_folder, config) {
-                const cfg = config as any;
-                const opts: LaunchOptions = {
-                    triggerDebug: cfg.triggerDebug === true,
-                    showErrors:   cfg.showErrors   === true,
-                    preload:      cfg.preload,
-                    noUserCheats: cfg.noUserCheats,
-                    meleeMod:     cfg.meleeMod,
-                    difficulty:   cfg.difficulty,
-                    speed:        cfg.speed,
-                    testConfig:   cfg.testConfig,
-                };
-                launcher.launch(opts);
-                return undefined; // returning undefined cancels the debug session (no debugger attaches)
+                launcher.launch(optsFromDebugConfig(config as any));
+                return undefined;
             },
         }),
     );
 }
 
 export function deactivate(): void {}
+
+function optsFromDebugConfig(cfg: any): LaunchOptions {
+    return {
+        map:          cfg.map,
+        triggerDebug: cfg.triggerDebug === true,
+        showErrors:   cfg.showErrors   === true,
+        preload:      cfg.preload,
+        noUserCheats: cfg.noUserCheats,
+        reloadCheck:  cfg.reloadCheck  === true,
+        meleeMod:     cfg.meleeMod,
+        difficulty:   cfg.difficulty,
+        speed:        cfg.speed,
+        testMod:      cfg.testMod,
+        testConfig:   cfg.testConfig,
+    };
+}
 
 function getLaunchOptsFromConfig(): LaunchOptions {
     const launchConfigs = vscode.workspace
@@ -58,13 +63,16 @@ function getLaunchOptsFromConfig(): LaunchOptions {
     const sc2Config = launchConfigs.find(c => c.type === 'sc2') ?? {};
 
     return {
+        map:          sc2Config.map,
         triggerDebug: sc2Config.triggerDebug === true,
         showErrors:   sc2Config.showErrors   === true,
         preload:      sc2Config.preload,
         noUserCheats: sc2Config.noUserCheats,
+        reloadCheck:  sc2Config.reloadCheck  === true,
         meleeMod:     sc2Config.meleeMod,
         difficulty:   sc2Config.difficulty,
         speed:        sc2Config.speed,
+        testMod:      sc2Config.testMod,
         testConfig:   sc2Config.testConfig,
     };
 }

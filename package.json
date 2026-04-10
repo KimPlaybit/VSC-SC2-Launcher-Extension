@@ -2,7 +2,7 @@
   "name": "vsc-sc2-map-launcher",
   "displayName": "StarCraft 2 Map Launcher",
   "description": "Launch StarCraft II maps directly from VS Code",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "publisher": "Playbitstudios",
   "license": "MIT",
   "repository": {
@@ -35,6 +35,15 @@
             "request": "launch",
             "triggerDebug": false,
             "showErrors": false
+          },
+          {
+            "name": "SC2: Launch Mod",
+            "type": "sc2",
+            "request": "launch",
+            "triggerDebug": false,
+            "showErrors": false,
+            "map": "C:\\path\\to\\map.SC2Map",
+            "testMod": "Mods\\MyMod.SC2Mod;ComponentList.SC2Components"
           }
         ],
         "configurationAttributes": {
@@ -83,6 +92,21 @@
                 "type": "string",
                 "default": "",
                 "description": "Path to a .SC2TestConfig file used to set default attribute values when launching without the editor (-testconfig). Accepts an absolute path or a path relative to the workspace root, allowing different configs per launch configuration."
+              },
+              "map": {
+                "type": "string",
+                "default": "",
+                "description": "Override the map path for this launch configuration. Absolute or relative path. Leave empty to use sc2.mapPath (or workspace auto-detection)."
+              },
+              "testMod": {
+                "type": "string",
+                "default": "",
+                "description": "Path to a .SC2Mod to load alongside the map (-testmod). Relative paths assume the SC2 installation root. Overrides the sc2.launchMod workspace setting for this configuration."
+              },
+              "reloadCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Enable reload checking (-reloadcheck)."
               }
             }
           }
@@ -104,7 +128,7 @@
         },
         "sc2.warnIfRunning": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Show a warning dialog when SC2 is already running, asking whether to kill and relaunch it. Disable this to suppress the dialog and always kill & relaunch automatically."
         }
       }
