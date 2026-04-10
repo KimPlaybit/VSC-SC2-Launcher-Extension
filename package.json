@@ -1,9 +1,10 @@
 {
-  "name": "vsc-sc2",
-  "displayName": "SC2 Map Tools",
+  "name": "vsc-sc2-map-launcher",
+  "displayName": "StarCraft 2 Map Launcher",
   "description": "Launch StarCraft II maps directly from VS Code",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "publisher": "Playbitstudios",
+  "icon": "readme-pic/sc2editoricon.png",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -26,9 +27,56 @@
           {
             "name": "SC2: Launch Map",
             "type": "sc2",
-            "request": "launch"
+            "request": "launch",
+            "triggerDebug": false,
+            "showErrors": false
           }
-        ]
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "properties": {
+              "triggerDebug": {
+                "type": "boolean",
+                "default": false,
+                "description": "Open the in-game trigger debugger window on launch."
+              },
+              "showErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Capture SC2 output and stream it to the SC2 Output Channel in VS Code."
+              },
+              "preload": {
+                "type": "boolean",
+                "default": true,
+                "description": "Preload map assets before launching (-preload 1)."
+              },
+              "noUserCheats": {
+                "type": "boolean",
+                "default": true,
+                "description": "Disable in-game cheat commands (-NoUserCheats)."
+              },
+              "meleeMod": {
+                "type": "string",
+                "default": "Void",
+                "description": "Game mode/mod to use, e.g. Void for LotV melee (-meleeMod)."
+              },
+              "difficulty": {
+                "type": "integer",
+                "default": 2,
+                "minimum": 0,
+                "maximum": 3,
+                "description": "AI difficulty: 0=VeryEasy, 1=Easy, 2=Medium, 3=Hard (-difficulty)."
+              },
+              "speed": {
+                "type": "integer",
+                "default": 2,
+                "minimum": 0,
+                "maximum": 4,
+                "description": "Game speed: 0=Slower, 1=Slow, 2=Normal, 3=Fast, 4=Faster (-speed)."
+              }
+            }
+          }
+        }
       }
     ],
     "configuration": {
