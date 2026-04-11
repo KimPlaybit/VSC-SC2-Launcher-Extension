@@ -6,7 +6,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $scriptDir = $PSScriptRoot
-$dest = "$env:USERPROFILE\.vscode\extensions\Playbitstudios.vsc-sc2-map-launcher-0.5.0"
+$dest = "$env:USERPROFILE\.vscode\extensions\Playbitstudios.vsc-sc2-map-launcher-0.8.0"
 
 Write-Host "[install] Compiling TypeScript..."
 Push-Location $scriptDir

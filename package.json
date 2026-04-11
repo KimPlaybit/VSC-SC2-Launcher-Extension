@@ -2,7 +2,7 @@
   "name": "vsc-sc2-map-launcher",
   "displayName": "StarCraft 2 Map Launcher",
   "description": "Launch StarCraft II maps directly from VS Code",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "publisher": "Playbitstudios",
   "license": "MIT",
   "repository": {
@@ -130,6 +130,11 @@
           "type": "boolean",
           "default": true,
           "description": "Show a warning dialog when SC2 is already running, asking whether to kill and relaunch it. Disable this to suppress the dialog and always kill & relaunch automatically."
+        },
+        "sc2.gameLogsPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the StarCraft II GameLogs folder. Leave empty to use the default: ~/Documents/StarCraft II/GameLogs."
         }
       }
     }
