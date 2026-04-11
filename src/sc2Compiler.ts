@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as cp from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ScriptErrorWatcher } from './scriptErrorWatcher';
 
 interface SC2Config {
     switcherPath: string;
@@ -26,6 +27,9 @@ export interface LaunchOptions {
 export class SC2Launcher {
 
     private outputChannel: vscode.OutputChannel | undefined;
+    private currentWatcher: ScriptErrorWatcher | undefined;
+
+    constructor(private readonly diagnostics: vscode.DiagnosticCollection) {}
 
     async launch(opts: LaunchOptions = {}): Promise<void> {
         const cfg = this.resolveConfig();
@@ -49,6 +53,9 @@ export class SC2Launcher {
             await this.killSC2();
         }
 
+        this.currentWatcher?.dispose();
+        this.currentWatcher = undefined;
+        this.diagnostics.clear();
         this.spawnSC2(cfg, opts);
         vscode.window.showInformationMessage('SC2: Map launched.');
     }
@@ -140,6 +147,12 @@ export class SC2Launcher {
             args.push('-testconfig', testConfigPath);
         }
 
+        if (!this.outputChannel) {
+            this.outputChannel = vscode.window.createOutputChannel('SC2');
+        }
+        this.outputChannel.clear();
+        this.outputChannel.show(true);
+
         const stdio = opts.showErrors ? 'pipe' : 'ignore';
         const proc = cp.spawn(cfg.switcherPath, args, {
             detached: true,
@@ -148,16 +161,16 @@ export class SC2Launcher {
         });
 
         if (opts.showErrors) {
-            if (!this.outputChannel) {
-                this.outputChannel = vscode.window.createOutputChannel('SC2');
-            }
-            this.outputChannel.clear();
-            this.outputChannel.show(true);
             proc.stdout?.on('data', (d: { toString(): string }) => this.outputChannel!.append(d.toString()));
             proc.stderr?.on('data', (d: { toString(): string }) => this.outputChannel!.append(d.toString()));
         }
 
         proc.unref();
+
+        // Watch GameLogs for new ScriptError*.txt / *Alerts.txt from this launch
+        const mapPath = opts.map ?? cfg.mapPath;
+        this.currentWatcher = new ScriptErrorWatcher(mapPath, this.diagnostics, this.outputChannel);
+        this.currentWatcher.start();
     }
 
     private killSC2(): Promise<void> {

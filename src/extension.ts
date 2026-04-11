@@ -5,7 +5,9 @@ let statusBarItem: vscode.StatusBarItem;
 let launcher: SC2Launcher;
 
 export function activate(context: vscode.ExtensionContext): void {
-    launcher = new SC2Launcher();
+    const diagnostics = vscode.languages.createDiagnosticCollection('sc2');
+    context.subscriptions.push(diagnostics);
+    launcher = new SC2Launcher(diagnostics);
 
     // ── Status bar button ─────────────────────────────────────────────────────
     statusBarItem = vscode.window.createStatusBarItem(
@@ -23,6 +25,29 @@ export function activate(context: vscode.ExtensionContext): void {
         vscode.commands.registerCommand('sc2.launch', () => {
             const opts = getLaunchOptsFromConfig();
             launcher.launch(opts);
+        }),
+    );
+
+    // ── Clear diagnostics on edited lines ────────────────────────────────────
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeTextDocument(event => {
+            const uri = event.document.uri;
+            const existing = diagnostics.get(uri);
+            if (!existing || existing.length === 0) return;
+
+            const changedLines = new Set(event.contentChanges.flatMap(c => {
+                const lines: number[] = [];
+                for (let l = c.range.start.line; l <= c.range.end.line; l++) lines.push(l);
+                return lines;
+            }));
+
+            const remaining = existing.filter(
+                d => !changedLines.has(d.range.start.line),
+            );
+
+            if (remaining.length !== existing.length) {
+                diagnostics.set(uri, remaining);
+            }
         }),
     );
 

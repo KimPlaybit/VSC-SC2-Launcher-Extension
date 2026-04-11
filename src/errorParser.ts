@@ -21,11 +21,12 @@ export function parseScriptErrors(content: string, mapPath: string): ParsedError
     const results: ParsedError[] = [];
 
     // Match: Script compile error: <path> (<line>), <message>
-    const linePattern = /^Script compile error:\s+(.+?)\s+\((\d+)\),\s+(.+)$/gm;
+    // Optionally followed by:   Script code:   <snippet>
+    const linePattern = /^Script compile error:\s+(.+?)\s+\((\d+)\),\s+(.+?)(?:\r?\n[ \t]+Script code:[ \t]*(.+))?$/gm;
 
     let match: RegExpExecArray | null;
     while ((match = linePattern.exec(content)) !== null) {
-        const [, relFile, lineStr, message] = match;
+        const [, relFile, lineStr, message, scriptCode] = match;
         const lineNum = Math.max(0, parseInt(lineStr, 10) - 1); // convert to 0-based
 
         const absFile = path.isAbsolute(relFile)
@@ -37,11 +38,15 @@ export function parseScriptErrors(content: string, mapPath: string): ParsedError
             new vscode.Position(lineNum, Number.MAX_SAFE_INTEGER),
         );
 
+        const fullMessage = scriptCode
+            ? `${message.trim()}\n  Code: ${scriptCode.trim()}`
+            : message.trim();
+
         results.push({
             file: absFile,
             diagnostic: new vscode.Diagnostic(
                 range,
-                message.trim(),
+                fullMessage,
                 vscode.DiagnosticSeverity.Error,
             ),
         });
